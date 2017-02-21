@@ -1,0 +1,23 @@
+#STEP 1, FROM the EXEC MODE # (Copy and Paste)
+
+tclsh
+puts [open "flash:change_ip.cfg" w+] {
+ ios_config "no ip route 0.0.0.0 0.0.0.0 192.168.9.188"
+ ios_config "ip route 0.0.0.0 0.0.0.0 192.168.3.187"
+ ios_config "interface fastethernet 0/0" "ip address 192.168.0.188 255.255.255.0"
+ exec delete /force flash:change_ip.cfg
+ exec wr
+ typeahead "y"
+ exec reload
+}
+tclquit
+
+#STEP 2 VERIFY THE SCRIPT (FROM EXEC # Copy and Paste)
+
+more flash:change_ip.cfg
+
+
+#STEP 3 RUN SCRIPT (FROM EXEC # Copy and Paste)
+
+tclsh
+source flash:change_ip.cfg
